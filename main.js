@@ -2,6 +2,8 @@ var cells = document.querySelectorAll('td')
 var display = document.getElementById('display')
 var tableData = ["","","","","","","","",""]
 var turn = 'x'
+var resetButton = document.getElementById('reset')
+var win = false
 var winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -15,16 +17,21 @@ var winningCombos = [
 
 cells.forEach(function(e) {
     e.addEventListener('click', handleClick)
-})
+}
+)
+resetButton.addEventListener('click', reset)
 
 function handleClick(e) {
-  if  (tableData[e.target.id] === '') {
-      tableData[e.target.id] = turn
-      render();
-      checkWin();
-      switchTurn();
+    if (!win) {
+        if  (tableData[e.target.id] === '') {
+            tableData[e.target.id] = turn
+            render();
+            checkWin();
+            switchTurn();
+      
+        }
 
-  }
+    }
     }
 
 function render() {
@@ -51,9 +58,18 @@ function checkWin() {
         if (str.length === 3) {
             if (str === 'xxx') {
                 display.innerText = 'X Wins!'
+                win = true
             } else if (str === 'ooo') {
                 display.innerText = 'O Wins!'
+                win = true
             }
         }
     }
+}
+function reset() {
+    turn = 'x'
+    tableData = ["","","","","","","","",""]
+    win = false
+    display.innerText = ''
+    render();
 }
